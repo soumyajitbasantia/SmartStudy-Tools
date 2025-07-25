@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>STUDENT HELPER TOOL</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #00d2ff, #3a47d5);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+
+        h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px #00000066;
+        }
+
+        p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .link-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 20px;
+            padding: 15px;
+            background-color: #ffffffdd;
+            color: #003366;
+            border-radius: 10px;
+            transition: transform 0.2s ease, background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        a:hover {
+            background-color: #fff;
+            transform: scale(1.05);
+            color: #000;
+        }
+
+        .back-button {
+            margin-top: 40px;
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #ffffffdd;
+            color: #003366;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .back-button:hover {
+            background-color: #fff;
+            color: #000;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Welcome to Student Helper Tool</h2>
+    <p>Select a tool below:</p>
+
+    <div class="link-container">
+        <a href="mathemetical.html">Simple Mathematical Calculator</a>
+        <a href="percentage.html">Percentage Calculator</a>
+        <a href="loan.html">Loan Calculator</a>
+        <a href="age.html">Age Calculator</a>
+        <a href="unit.html">Unit Converter</a>
+        <a href="table.html">Table Generator</a>
+    </div>
+
+    <button class="back-button" onclick="window.location.href='home.html'">Go Back</button>
+
+</body>
+</html>

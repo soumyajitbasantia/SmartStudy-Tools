@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiplication Table Generator</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #1f3c88;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            padding: 12px 20px;
+            font-size: 20px;
+            border: 2px solid #1f3c88;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px #007bff99;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 20px;
+            background: #1f3c88;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background: #4169e1;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #222;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            color: white;
+            background: #e91e63;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #d81b60;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Multiplication Table</h1>
+
+    <div>
+        <input type="number" id="tableInput" placeholder="Enter a number">
+        <button onclick="generateTable()">Generate</button>
+    </div>
+
+    <div class="result" id="tableResult"></div>
+
+    <button class="back-button" onclick="window.location.href='tool.html'">⬅ Go Back</button>
+
+    <script>
+        function generateTable() {
+            const num = parseInt(document.getElementById("tableInput").value);
+            const output = document.getElementById("tableResult");
+            if (isNaN(num)) {
+                output.innerHTML = "❌ Please enter a valid number.";
+                return;
+            }
+
+            let tableHTML = "";
+            for (let i = 1; i <= 10; i++) {
+                tableHTML += `${num} × ${i} = ${num * i}<br>`;
+            }
+            output.innerHTML = tableHTML;
+        }
+    </script>
+
+</body>
+</html>

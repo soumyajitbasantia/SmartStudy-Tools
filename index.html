@@ -1,0 +1,145 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soumyajit Basantia</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #00c9ff, #92fe9d);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        img {
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #6a1b9a;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #d2691e;
+        }
+
+        p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        input, button {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        input {
+            border: 1px solid #ccc;
+            width: 150px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="https://i.postimg.cc/yNcJ0RNX/Screenshot-2025-07-25-031710.png" alt="My Photo">
+
+        <h1>Soumyajit Basantia</h1>
+
+        <h2>Hello and Welcome!</h2>
+
+        <p>
+            Welcome to my personal student-friendly tool hub! I'm Soumyajit Basantia, a tech enthusiast who created this space to make learning and everyday calculations easier and faster. Whether it’s basic math, loan planning, unit conversions, or generating tables — these simple tools are designed to save time and help you stay focused.<br><br>
+            Made with love, curiosity, and the goal of helping students like me!
+        </p>
+
+        <h3 id="question"></h3>
+        <input type="number" id="answer" placeholder="Your answer">
+        <br>
+        <button onclick="verify()">Submit</button>
+        <p id="feedback" class="result"></p>
+    </div>
+
+    <script>
+        let num1 = Math.floor(Math.random() * 10) + 1;
+        let num2 = Math.floor(Math.random() * 10) + 1;
+        const operators = ['+', '-', '*', '/'];
+        let operator = operators[Math.floor(Math.random() * operators.length)];
+        let correctAnswer;
+
+        if (operator === '+') {
+            correctAnswer = num1 + num2;
+        } else if (operator === '-') {
+            correctAnswer = num1 - num2;
+        } else if (operator === '*') {
+            correctAnswer = num1 * num2;
+        } else if (operator === '/') {
+            num1 = num1 * num2; // ensure clean division
+            correctAnswer = num1 / num2;
+        }
+
+        document.getElementById("question").innerText = `What is ${num1} ${operator} ${num2}?`;
+
+        function verify() {
+            const userAnswer = parseFloat(document.getElementById("answer").value);
+            const feedback = document.getElementById("feedback");
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = "✅ Correct! Redirecting...";
+                feedback.className = "result";
+                setTimeout(() => {
+                    window.location.href = "tool.html";
+                }, 1500);
+            } else {
+                feedback.textContent = "❌ Incorrect answer. Try again!";
+                feedback.className = "error";
+            }
+        }
+    </script>
+
+</body>
+</html>

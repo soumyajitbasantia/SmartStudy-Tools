@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #00c9ff, #92fe9d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #6a1b9a;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .result {
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #ff6b6b;
+        }
+
+        .back-button:hover {
+            background-color: #d94c4c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>LOAN CALCULATOR</h1>
+
+        <input type="number" id="loanAmount" placeholder="Enter Loan Amount (₹)">
+        <input type="number" id="interestRate" placeholder="Annual Interest Rate (%)">
+        <input type="number" id="months" placeholder="Loan Duration (in Months)">
+        <button onclick="calculateEMI()">Calculate EMI</button>
+
+        <div class="result" id="loanResult"></div>
+
+        <button class="back-button" onclick="window.location.href='tool.html'">Go Back</button>
+    </div>
+
+    <script>
+        function calculateEMI() {
+            const principal = parseFloat(document.getElementById("loanAmount").value);
+            const annualRate = parseFloat(document.getElementById("interestRate").value);
+            const months = parseInt(document.getElementById("months").value);
+            let result;
+
+            if (isNaN(principal) || isNaN(annualRate) || isNaN(months) || months <= 0) {
+                result = "Please enter valid values.";
+            } else {
+                const monthlyRate = annualRate / 12 / 100;
+                const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                result = `Monthly EMI is ₹${emi.toFixed(2)}`;
+            }
+
+            document.getElementById("loanResult").innerText = result;
+        }
+    </script>
+
+</body>
+</html>

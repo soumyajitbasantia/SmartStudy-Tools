@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Age Calculator</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #ffffffcc;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 18px;
+            border: 2px solid #0077ff;
+            border-radius: 10px;
+            outline: none;
+        }
+        input {
+            background: #f0faff;
+        }
+        button {
+            background-color: #0077ff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #005dc0;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 25px;
+            font-size: 20px;
+            color: #222;
+        }
+        .back-button {
+            margin-top: 30px;
+            background: transparent;
+            border: 2px solid #0077ff;
+            color: #0077ff;
+        }
+        .back-button:hover {
+            background: #0077ff;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AGE CALCULATOR</h1>
+        <h2>Enter Your Date of Birth</h2>
+        <input type="date" id="dob">
+        <button onclick="calculateAge()">Calculate</button>
+
+        <div class="result" id="result"></div>
+
+        <button class="back-button" onclick="window.location.href='tool.html'">Go Back</button>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const dob = document.getElementById("dob").value;
+            if (!dob) {
+                document.getElementById("result").innerText = "Please select a date.";
+                return;
+            }
+
+            const dobDate = new Date(dob);
+            const now = new Date();
+
+            const diffMs = now - dobDate;
+            const diffSec = Math.floor(diffMs / 1000);
+            const diffMin = Math.floor(diffSec / 60);
+            const diffHr  = Math.floor(diffMin / 60);
+            const diffDays = Math.floor(diffHr / 24);
+            const diffYears = Math.floor(diffDays / 365.25);
+
+            document.getElementById("result").innerHTML = `
+                <p>Your age is:</p>
+                <p><strong>${diffYears}</strong> Years</p>
+                <p><strong>${diffDays}</strong> Days</p>
+                <p><strong>${diffHr}</strong> Hours</p>
+                <p><strong>${diffMin}</strong> Minutes</p>
+                <p><strong>${diffSec}</strong> Seconds</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
