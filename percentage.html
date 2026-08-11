@@ -1,200 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Percentage Calculator</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to right, #1FA2FF, #12D8FA, #A6FFCB);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 30px;
-            color: #333;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 30px;
-            color: white;
-            text-shadow: 1px 1px 2px #00000080;
-        }
-
-        h2 {
-            margin-top: 30px;
-            font-size: 1.5rem;
-            color: #222;
-        }
-
-        input, button {
-            padding: 12px;
-            margin: 10px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        input {
-            width: 220px;
-        }
-
-        button {
-            background: #007BFF;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .result {
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 1.1rem;
-            color: #222;
-        }
-
-        .section {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .back-btn {
-            background: #28a745;
-            color: white;
-        }
-
-        .back-btn:hover {
-            background: #1c7c31;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate percentages, percentage change, discounts, and original values with SmartStudy Tools.">
+  <title>Percentage Calculator - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div>
+    </nav>
+  </header>
 
-    <h1>Percentage Calculator</h1>
+  <main class="tool-page">
+    <div class="container">
+      <a class="btn btn-secondary" href="tool.html"><span class="icon-only" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+      <section class="calculator panel" aria-labelledby="pageTitle">
+        <span class="eyebrow">Calculator</span>
+        <h1 id="pageTitle">Percentage Calculator</h1>
+        <p class="muted">Choose a calculation type, enter values, and get an instant result.</p>
 
-    <div class="section">
-        <h2>1. Calculate X% of Y</h2>
-        <input type="number" id="percent" placeholder="Enter % (X)">
-        <input type="number" id="total" placeholder="Enter Total (Y)">
-        <button onclick="calculatePercentage()">Calculate</button>
-        <div class="result" id="result1"></div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="mode">Calculation type</label>
+            <select class="select" id="mode" onchange="updateLabels()">
+              <option value="of">What is X% of Y?</option>
+              <option value="what">X is what % of Y?</option>
+              <option value="change">Percentage increase/decrease</option>
+              <option value="original">X is Y% of what number?</option>
+              <option value="discount">Discount calculator</option>
+            </select>
+          </div>
+          <div class="two-column">
+            <div class="field">
+              <label id="labelA" for="valueA">Percentage</label>
+              <input class="input" type="number" id="valueA" step="any" placeholder="Example: 20">
+            </div>
+            <div class="field">
+              <label id="labelB" for="valueB">Total</label>
+              <input class="input" type="number" id="valueB" step="any" placeholder="Example: 500">
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="calculatePercentage()">Calculate</button>
+            <button class="btn btn-secondary" type="button" onclick="clearPercentage()">Clear</button>
+            <button class="btn btn-secondary" type="button" onclick="copyResult('percentResult')">Copy result</button>
+          </div>
+        </div>
+
+        <div class="result-box" id="percentResult" aria-live="polite">Select a type and enter values to see the result.</div>
+      </section>
     </div>
+  </main>
 
-    <div class="section">
-        <h2>2. X is what % of Y</h2>
-        <input type="number" id="part" placeholder="Enter Part (X)">
-        <input type="number" id="whole" placeholder="Enter Whole (Y)">
-        <button onclick="calculateWhatPercent()">Calculate</button>
-        <div class="result" id="result2"></div>
-    </div>
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    const labels = {
+      of: ["Percentage (X)", "Total (Y)", "Example: 20", "Example: 500"],
+      what: ["Part (X)", "Whole (Y)", "Example: 50", "Example: 200"],
+      change: ["Old value", "New value", "Example: 100", "Example: 125"],
+      original: ["Part (X)", "Percentage (Y)", "Example: 40", "Example: 20"],
+      discount: ["Original price", "Discount (%)", "Example: 999", "Example: 15"]
+    };
 
-    <div class="section">
-        <h2>3. % Increase or Decrease</h2>
-        <input type="number" id="oldValue" placeholder="Old Value">
-        <input type="number" id="newValue" placeholder="New Value">
-        <button onclick="calculateChange()">Calculate</button>
-        <div class="result" id="result3"></div>
-    </div>
+    function updateLabels() {
+      const mode = document.getElementById("mode").value;
+      const [labelA, labelB, placeholderA, placeholderB] = labels[mode];
+      document.getElementById("labelA").textContent = labelA;
+      document.getElementById("labelB").textContent = labelB;
+      document.getElementById("valueA").placeholder = placeholderA;
+      document.getElementById("valueB").placeholder = placeholderB;
+    }
 
-    <div class="section">
-        <h2>4. X is Y% of what number?</h2>
-        <input type="number" id="part4" placeholder="Enter X">
-        <input type="number" id="percent4" placeholder="Enter Y%">
-        <button onclick="calculateOriginalValue()">Calculate</button>
-        <div class="result" id="result4"></div>
-    </div>
+    function calculatePercentage() {
+      const mode = document.getElementById("mode").value;
+      const a = getNumber("valueA");
+      const b = getNumber("valueB");
 
-    <div class="section">
-        <h2>5. Discount Calculator</h2>
-        <input type="number" id="originalPrice" placeholder="Original Price">
-        <input type="number" id="discountPercent" placeholder="Discount %">
-        <button onclick="calculateDiscount()">Calculate</button>
-        <div class="result" id="result5"></div>
-    </div>
+      if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        setResult("percentResult", "Please enter both values correctly.", "error");
+        return;
+      }
 
-    <button class="back-btn" onclick="window.location.href='tool.html'">⬅ Go Back</button>
+      let message = "";
+      if (mode === "of") {
+        message = `${a}% of ${formatNumber(b)} is ${formatNumber((a / 100) * b)}.`;
+      } else if (mode === "what") {
+        if (b === 0) return setResult("percentResult", "Whole value cannot be zero.", "error");
+        message = `${formatNumber(a)} is ${formatNumber((a / b) * 100)}% of ${formatNumber(b)}.`;
+      } else if (mode === "change") {
+        if (a === 0) return setResult("percentResult", "Old value cannot be zero.", "error");
+        const change = ((b - a) / a) * 100;
+        message = `${change >= 0 ? "Increase" : "Decrease"}: ${formatNumber(Math.abs(change))}%.`;
+      } else if (mode === "original") {
+        if (b === 0) return setResult("percentResult", "Percentage cannot be zero.", "error");
+        message = `${formatNumber(a)} is ${b}% of ${formatNumber(a / (b / 100))}.`;
+      } else if (mode === "discount") {
+        if (a < 0 || b < 0) return setResult("percentResult", "Price and discount should not be negative.", "error");
+        const discountAmount = (b / 100) * a;
+        const finalPrice = a - discountAmount;
+        message = `Final price: ${formatCurrency(finalPrice)}. You save ${formatCurrency(discountAmount)}.`;
+      }
 
-    <script>
-        function calculatePercentage() {
-            const percent = parseFloat(document.getElementById("percent").value);
-            const total = parseFloat(document.getElementById("total").value);
-            let result;
-            if (isNaN(percent) || isNaN(total)) {
-                result = "Please enter valid numbers.";
-            } else {
-                const value = (percent / 100) * total;
-                result = `${percent}% of ${total} is: ${value.toFixed(2)}`;
-            }
-            document.getElementById("result1").innerText = result;
-        }
+      setResult("percentResult", message);
+    }
 
-        function calculateWhatPercent() {
-            const part = parseFloat(document.getElementById("part").value);
-            const whole = parseFloat(document.getElementById("whole").value);
-            let result;
-            if (isNaN(part) || isNaN(whole) || whole === 0) {
-                result = "Please enter valid numbers (Whole ≠ 0).";
-            } else {
-                const percentage = (part / whole) * 100;
-                result = `${part} is ${percentage.toFixed(2)}% of ${whole}`;
-            }
-            document.getElementById("result2").innerText = result;
-        }
-
-        function calculateChange() {
-            const oldVal = parseFloat(document.getElementById("oldValue").value);
-            const newVal = parseFloat(document.getElementById("newValue").value);
-            let result;
-            if (isNaN(oldVal) || isNaN(newVal) || oldVal === 0) {
-                result = "Please enter valid numbers (Old Value ≠ 0).";
-            } else {
-                const change = ((newVal - oldVal) / oldVal) * 100;
-                const direction = change > 0 ? "Increase" : "Decrease";
-                result = `Percentage ${direction}: ${Math.abs(change).toFixed(2)}%`;
-            }
-            document.getElementById("result3").innerText = result;
-        }
-
-        function calculateOriginalValue() {
-            const part = parseFloat(document.getElementById("part4").value);
-            const percent = parseFloat(document.getElementById("percent4").value);
-            let result;
-            if (isNaN(part) || isNaN(percent) || percent === 0) {
-                result = "Please enter valid numbers (Percent ≠ 0).";
-            } else {
-                const original = part / (percent / 100);
-                result = `${part} is ${percent}% of ${original.toFixed(2)}`;
-            }
-            document.getElementById("result4").innerText = result;
-        }
-
-        function calculateDiscount() {
-            const original = parseFloat(document.getElementById("originalPrice").value);
-            const discount = parseFloat(document.getElementById("discountPercent").value);
-            let result;
-            if (isNaN(original) || isNaN(discount)) {
-                result = "Please enter valid numbers.";
-            } else {
-                const final = original - ((discount / 100) * original);
-                result = `Final price after ${discount}% discount: ₹${final.toFixed(2)}`;
-            }
-            document.getElementById("result5").innerText = result;
-        }
-    </script>
-
+    function clearPercentage() {
+      document.getElementById("valueA").value = "";
+      document.getElementById("valueB").value = "";
+      setResult("percentResult", "Select a type and enter values to see the result.", "");
+    }
+  </script>
 </body>
 </html>

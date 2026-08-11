@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Count words, characters, sentences, reading time, and speaking time with SmartStudy Tools.">
+  <meta name="theme-color" content="#2563eb">
+  <title>Word Counter - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div>
+    </nav>
+  </header>
+
+  <main class="tool-page">
+    <div class="container">
+      <a class="btn btn-secondary" href="tool.html"><span class="icon-only" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+      <section class="calculator panel" aria-labelledby="pageTitle">
+        <span class="eyebrow">Productivity</span>
+        <h1 id="pageTitle">Word Counter</h1>
+        <p class="muted">Useful for essays, assignments, speeches, and notes.</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="textInput">Paste or type your text</label>
+            <textarea class="input textarea" id="textInput" placeholder="Start typing here..." oninput="countText()"></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" onclick="copyResult('textResult')">Copy stats</button>
+            <button class="btn btn-danger" type="button" onclick="clearText()">Clear</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid" id="textResult" aria-live="polite">
+          <div class="kpi"><strong>0</strong><span>Words</span></div>
+          <div class="kpi"><strong>0</strong><span>Characters</span></div>
+          <div class="kpi"><strong>0</strong><span>Sentences</span></div>
+          <div class="kpi"><strong>0 min</strong><span>Reading time</span></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    function countText() {
+      const text = document.getElementById("textInput").value.trim();
+      const words = text ? text.match(/\b[\w'-]+\b/g)?.length || 0 : 0;
+      const characters = text.length;
+      const charactersNoSpaces = text.replace(/\s/g, "").length;
+      const sentences = text ? text.split(/[.!?]+/).filter(Boolean).length : 0;
+      const paragraphs = text ? text.split(/\n+/).filter((line) => line.trim()).length : 0;
+      const readingTime = Math.max(0, Math.ceil(words / 200));
+      const speakingTime = Math.max(0, Math.ceil(words / 130));
+
+      document.getElementById("textResult").innerHTML = `
+        <div class="kpi"><strong>${formatNumber(words, 0)}</strong><span>Words</span></div>
+        <div class="kpi"><strong>${formatNumber(characters, 0)}</strong><span>Characters</span></div>
+        <div class="kpi"><strong>${formatNumber(charactersNoSpaces, 0)}</strong><span>Characters without spaces</span></div>
+        <div class="kpi"><strong>${formatNumber(sentences, 0)}</strong><span>Sentences</span></div>
+        <div class="kpi"><strong>${formatNumber(paragraphs, 0)}</strong><span>Paragraphs</span></div>
+        <div class="kpi"><strong>${readingTime} min</strong><span>Reading time</span></div>
+        <div class="kpi"><strong>${speakingTime} min</strong><span>Speaking time</span></div>
+      `;
+    }
+
+    function clearText() {
+      document.getElementById("textInput").value = "";
+      countText();
+    }
+  </script>
+</body>
+</html>

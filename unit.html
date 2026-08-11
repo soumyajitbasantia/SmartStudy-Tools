@@ -1,210 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Unit Converter | Student Helper</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #00c9ff, #92fe9d);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        h1 {
-            color: #4B0082;
-            margin-top: 40px;
-        }
-
-        label, select, input, button {
-            font-size: 1.1rem;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-        }
-
-        select, input {
-            background-color: #f0f0f0;
-        }
-
-        button {
-            background-color: #4B0082;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #6a0dad;
-            transform: scale(1.05);
-        }
-
-        .converter-section {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.85);
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
-
-        .result {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            color: #006400;
-        }
-
-        .back-btn {
-            background-color: #fff;
-            color: blue;
-            border: 2px solid blue;
-            margin-top: 50px;
-        }
-
-        .back-btn:hover {
-            background-color: blue;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Convert length, weight, and temperature units quickly with SmartStudy Tools.">
+  <title>Unit Converter - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div>
+    </nav>
+  </header>
 
-    <h1>🌐 All-in-One Unit Converter</h1>
+  <main class="tool-page">
+    <div class="container">
+      <a class="btn btn-secondary" href="tool.html"><span class="icon-only" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+      <section class="calculator panel" aria-labelledby="pageTitle">
+        <span class="eyebrow">Converter</span>
+        <h1 id="pageTitle">Unit Converter</h1>
+        <p class="muted">Convert length, weight, and temperature units with a clean interface.</p>
 
-    <label for="converterType">Choose Unit Type:</label>
-    <select id="converterType" onchange="showConverter()">
-        <option value="">-- Select --</option>
-        <option value="length">Length</option>
-        <option value="temperature">Temperature</option>
-        <option value="weight">Weight</option>
-    </select>
+        <div class="form-grid">
+          <div class="field">
+            <label for="converterType">Unit type</label>
+            <select class="select" id="converterType" onchange="updateUnitOptions()">
+              <option value="length">Length</option>
+              <option value="temperature">Temperature</option>
+              <option value="weight">Weight</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="unitValue">Value</label>
+            <input class="input" type="number" id="unitValue" placeholder="Enter value" step="any">
+          </div>
+          <div class="two-column">
+            <div class="field">
+              <label for="fromUnit">From</label>
+              <select class="select" id="fromUnit"></select>
+            </div>
+            <div class="field">
+              <label for="toUnit">To</label>
+              <select class="select" id="toUnit"></select>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="convertUnit()">Convert</button>
+            <button class="btn btn-secondary" type="button" onclick="clearUnit()">Clear</button>
+            <button class="btn btn-secondary" type="button" onclick="copyResult('unitResult')">Copy result</button>
+          </div>
+        </div>
 
-    <!-- Length Converter -->
-    <div id="length" class="converter-section">
-        <h2>📏 Length Converter</h2>
-        <input type="number" id="lengthValue" placeholder="Enter value">
-        <select id="lengthFrom">
-            <option value="km">Kilometers</option>
-            <option value="m">Meters</option>
-            <option value="cm">Centimeters</option>
-            <option value="mm">Millimeters</option>
-        </select>
-        <select id="lengthTo">
-            <option value="km">Kilometers</option>
-            <option value="m">Meters</option>
-            <option value="cm">Centimeters</option>
-            <option value="mm">Millimeters</option>
-        </select>
-        <button onclick="convertLength()">Convert</button>
-        <div class="result" id="lengthResult"></div>
+        <div class="result-box" id="unitResult" aria-live="polite">Choose units and enter a value to convert.</div>
+      </section>
     </div>
+  </main>
 
-    <!-- Temperature Converter -->
-    <div id="temperature" class="converter-section">
-        <h2>🌡️ Temperature Converter</h2>
-        <input type="number" id="tempValue" placeholder="Enter value">
-        <select id="tempFrom">
-            <option value="C">Celsius</option>
-            <option value="F">Fahrenheit</option>
-            <option value="K">Kelvin</option>
-        </select>
-        <select id="tempTo">
-            <option value="C">Celsius</option>
-            <option value="F">Fahrenheit</option>
-            <option value="K">Kelvin</option>
-        </select>
-        <button onclick="convertTemp()">Convert</button>
-        <div class="result" id="tempResult"></div>
-    </div>
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    const unitOptions = {
+      length: {
+        km: ["Kilometres", 1000],
+        m: ["Metres", 1],
+        cm: ["Centimetres", 0.01],
+        mm: ["Millimetres", 0.001],
+        mi: ["Miles", 1609.344],
+        ft: ["Feet", 0.3048]
+      },
+      weight: {
+        kg: ["Kilograms", 1000],
+        g: ["Grams", 1],
+        mg: ["Milligrams", 0.001],
+        lb: ["Pounds", 453.59237],
+        oz: ["Ounces", 28.3495]
+      },
+      temperature: {
+        C: ["Celsius"],
+        F: ["Fahrenheit"],
+        K: ["Kelvin"]
+      }
+    };
 
-    <!-- Weight Converter -->
-    <div id="weight" class="converter-section">
-        <h2>⚖️ Weight Converter</h2>
-        <input type="number" id="weightValue" placeholder="Enter value">
-        <select id="weightFrom">
-            <option value="kg">Kilograms</option>
-            <option value="g">Grams</option>
-            <option value="mg">Milligrams</option>
-            <option value="lb">Pounds</option>
-        </select>
-        <select id="weightTo">
-            <option value="kg">Kilograms</option>
-            <option value="g">Grams</option>
-            <option value="mg">Milligrams</option>
-            <option value="lb">Pounds</option>
-        </select>
-        <button onclick="convertWeight()">Convert</button>
-        <div class="result" id="weightResult"></div>
-    </div>
+    function updateUnitOptions() {
+      const type = document.getElementById("converterType").value;
+      const options = Object.entries(unitOptions[type]).map(([value, data]) => `<option value="${value}">${data[0]}</option>`).join("");
+      document.getElementById("fromUnit").innerHTML = options;
+      document.getElementById("toUnit").innerHTML = options;
+      const keys = Object.keys(unitOptions[type]);
+      document.getElementById("toUnit").value = keys[1] || keys[0];
+      setResult("unitResult", "Choose units and enter a value to convert.", "");
+    }
 
-    <button class="back-btn" onclick="window.location.href='tool.html'">🔙 Back to Tools</button>
+    function convertTemperature(value, from, to) {
+      const celsius = from === "F" ? (value - 32) * 5 / 9 : from === "K" ? value - 273.15 : value;
+      if (to === "C") return celsius;
+      if (to === "F") return (celsius * 9 / 5) + 32;
+      return celsius + 273.15;
+    }
 
-    <script>
-        function showConverter() {
-            const type = document.getElementById("converterType").value;
-            document.querySelectorAll('.converter-section').forEach(div => div.style.display = "none");
-            if (type) document.getElementById(type).style.display = "block";
+    function convertUnit() {
+      const type = document.getElementById("converterType").value;
+      const value = getNumber("unitValue");
+      const from = document.getElementById("fromUnit").value;
+      const to = document.getElementById("toUnit").value;
+
+      if (!Number.isFinite(value)) {
+        setResult("unitResult", "Please enter a valid number.", "error");
+        return;
+      }
+
+      let result;
+      if (type === "temperature") {
+        result = convertTemperature(value, from, to);
+        if (to === "K" && result < 0) {
+          setResult("unitResult", "Temperature cannot be below absolute zero.", "error");
+          return;
         }
+      } else {
+        const baseValue = value * unitOptions[type][from][1];
+        result = baseValue / unitOptions[type][to][1];
+      }
 
-        function convertLength() {
-            const value = parseFloat(document.getElementById("lengthValue").value);
-            const from = document.getElementById("lengthFrom").value;
-            const to = document.getElementById("lengthTo").value;
-            const units = { km: 1000, m: 1, cm: 0.01, mm: 0.001 };
+      setResult("unitResult", `${formatNumber(value, 6)} ${from} = ${formatNumber(result, 6)} ${to}`);
+    }
 
-            if (isNaN(value)) {
-                document.getElementById("lengthResult").innerText = "Enter a valid number.";
-                return;
-            }
+    function clearUnit() {
+      document.getElementById("unitValue").value = "";
+      setResult("unitResult", "Choose units and enter a value to convert.", "");
+    }
 
-            const inMeters = value * units[from];
-            const result = inMeters / units[to];
-            document.getElementById("lengthResult").innerText = `${value} ${from} = ${result} ${to}`;
-        }
-
-        function convertTemp() {
-            const value = parseFloat(document.getElementById("tempValue").value);
-            const from = document.getElementById("tempFrom").value;
-            const to = document.getElementById("tempTo").value;
-            let result;
-
-            if (isNaN(value)) {
-                document.getElementById("tempResult").innerText = "Enter a valid number.";
-                return;
-            }
-
-            let celsius = from === "F" ? (value - 32) * 5/9 : from === "K" ? value - 273.15 : value;
-            if (to === "C") result = celsius;
-            else if (to === "F") result = (celsius * 9/5) + 32;
-            else if (to === "K") result = celsius + 273.15;
-
-            document.getElementById("tempResult").innerText = `${value} ${from} = ${result.toFixed(2)} ${to}`;
-        }
-
-        function convertWeight() {
-            const value = parseFloat(document.getElementById("weightValue").value);
-            const from = document.getElementById("weightFrom").value;
-            const to = document.getElementById("weightTo").value;
-            const units = { kg: 1000, g: 1, mg: 0.001, lb: 453.592 };
-
-            if (isNaN(value)) {
-                document.getElementById("weightResult").innerText = "Enter a valid number.";
-                return;
-            }
-
-            const inGrams = value * units[from];
-            const result = inGrams / units[to];
-            document.getElementById("weightResult").innerText = `${value} ${from} = ${result.toFixed(2)} ${to}`;
-        }
-    </script>
+    updateUnitOptions();
+  </script>
 </body>
 </html>

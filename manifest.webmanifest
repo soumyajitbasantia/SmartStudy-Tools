@@ -1,0 +1,17 @@
+{
+  "name": "SmartStudy Tools",
+  "short_name": "SmartStudy",
+  "description": "Free student calculators, converters, and study productivity tools.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "assets/images/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

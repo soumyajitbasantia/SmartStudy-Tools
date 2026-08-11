@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Use a simple Pomodoro study timer with focus and break sessions on SmartStudy Tools.">
+  <meta name="theme-color" content="#2563eb">
+  <title>Pomodoro Timer - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div>
+    </nav>
+  </header>
+
+  <main class="tool-page">
+    <div class="container">
+      <a class="btn btn-secondary" href="tool.html"><span class="icon-only" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+      <section class="calculator panel" aria-labelledby="pageTitle">
+        <span class="eyebrow">Productivity</span>
+        <h1 id="pageTitle">Pomodoro Timer</h1>
+        <p class="muted">Study in focused sessions, then take short breaks to stay fresh.</p>
+
+        <div class="two-column">
+          <div class="field">
+            <label for="focusMinutes">Focus minutes</label>
+            <input class="input" id="focusMinutes" type="number" value="25" min="1" max="180">
+          </div>
+          <div class="field">
+            <label for="breakMinutes">Break minutes</label>
+            <input class="input" id="breakMinutes" type="number" value="5" min="1" max="60">
+          </div>
+        </div>
+
+        <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+        <div class="result-box" id="timerStatus" aria-live="polite">Ready for a focus session.</div>
+
+        <div class="session-complete" id="sessionComplete" role="dialog" aria-modal="true" aria-labelledby="completeTitle" aria-hidden="true">
+          <div class="confetti-field" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="complete-card">
+            <div class="complete-icon" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h2 id="completeTitle">Session complete</h2>
+            <p id="completeMessage">Great work. Take a short break before the next round.</p>
+            <div class="actions">
+              <button class="btn btn-primary" type="button" onclick="continueNextSession()">Start next session</button>
+              <button class="btn btn-secondary" type="button" onclick="closeCompletionVisual()">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" type="button" onclick="startTimer()">Start</button>
+          <button class="btn btn-secondary" type="button" onclick="pauseTimer()">Pause</button>
+          <button class="btn btn-secondary" type="button" onclick="resetTimer()">Reset</button>
+          <button class="btn btn-danger" type="button" onclick="switchMode()">Switch mode</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    let mode = "focus";
+    let remainingSeconds = 25 * 60;
+    let timerId = null;
+
+    function getDuration() {
+      const focus = Math.trunc(getNumber("focusMinutes"));
+      const br = Math.trunc(getNumber("breakMinutes"));
+      if (!Number.isInteger(focus) || focus < 1 || focus > 180 || !Number.isInteger(br) || br < 1 || br > 60) {
+        setResult("timerStatus", "Please enter valid focus and break durations.", "error");
+        return null;
+      }
+      return mode === "focus" ? focus * 60 : br * 60;
+    }
+
+    function renderTimer() {
+      const minutes = Math.floor(remainingSeconds / 60).toString().padStart(2, "0");
+      const seconds = (remainingSeconds % 60).toString().padStart(2, "0");
+      document.getElementById("timerDisplay").textContent = `${minutes}:${seconds}`;
+      document.title = `${minutes}:${seconds} - ${mode === "focus" ? "Focus" : "Break"} Timer`;
+    }
+
+    function startTimer() {
+      if (timerId) return;
+      if (remainingSeconds <= 0) {
+        const duration = getDuration();
+        if (!duration) return;
+        remainingSeconds = duration;
+      }
+      setResult("timerStatus", `${mode === "focus" ? "Focus" : "Break"} session running...`);
+      timerId = setInterval(() => {
+        remainingSeconds -= 1;
+        renderTimer();
+        if (remainingSeconds <= 0) {
+          clearInterval(timerId);
+          timerId = null;
+          setResult("timerStatus", `${mode === "focus" ? "Focus" : "Break"} session complete. Time to switch!`);
+          showCompletionVisual();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerId);
+      timerId = null;
+      setResult("timerStatus", "Timer paused.", "");
+    }
+
+    function resetTimer() {
+      closeCompletionVisual();
+      pauseTimer();
+      const duration = getDuration();
+      if (!duration) return;
+      remainingSeconds = duration;
+      renderTimer();
+      setResult("timerStatus", `Ready for a ${mode} session.`, "");
+    }
+
+    function showCompletionVisual() {
+      const overlay = document.getElementById("sessionComplete");
+      const message = document.getElementById("completeMessage");
+      const display = document.getElementById("timerDisplay");
+
+      message.textContent = mode === "focus"
+        ? "Great focus session. Take a short break and recharge."
+        : "Break complete. You are ready for the next focus round.";
+
+      overlay.classList.add("is-open");
+      overlay.setAttribute("aria-hidden", "false");
+      display.classList.add("timer-complete");
+      showToast("Session complete. Visual celebration started.");
+    }
+
+    function closeCompletionVisual() {
+      const overlay = document.getElementById("sessionComplete");
+      const display = document.getElementById("timerDisplay");
+      overlay.classList.remove("is-open");
+      overlay.setAttribute("aria-hidden", "true");
+      display.classList.remove("timer-complete");
+    }
+
+    function continueNextSession() {
+      closeCompletionVisual();
+      mode = mode === "focus" ? "break" : "focus";
+      resetTimer();
+      startTimer();
+    }
+
+    function switchMode() {
+      closeCompletionVisual();
+      pauseTimer();
+      mode = mode === "focus" ? "break" : "focus";
+      resetTimer();
+    }
+
+    document.getElementById("focusMinutes").addEventListener("change", () => { if (mode === "focus") resetTimer(); });
+    document.getElementById("breakMinutes").addEventListener("change", () => { if (mode === "break") resetTimer(); });
+    renderTimer();
+  </script>
+</body>
+</html>
