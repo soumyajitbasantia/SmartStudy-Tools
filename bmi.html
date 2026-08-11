@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate BMI and health category using SmartStudy Tools.">
+  <meta name="theme-color" content="#2563eb">
+  <title>BMI Calculator - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
+</head>
+<body>
+  <header class="site-header"><nav class="navbar" aria-label="Main navigation"><a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a><div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div></nav></header>
+  <main class="tool-page"><div class="container"><a class="btn btn-secondary" href="tool.html"><span aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+    <section class="calculator panel" aria-labelledby="pageTitle"><span class="eyebrow">Health</span><h1 id="pageTitle">BMI Calculator</h1><p class="muted">Calculate body mass index from weight and height.</p>
+      <div class="form-grid"><div class="two-column"><div class="field"><label for="weight">Weight in kg</label><input class="input" id="weight" type="number" min="1" step="any" placeholder="Example: 60"></div><div class="field"><label for="height">Height in cm</label><input class="input" id="height" type="number" min="1" step="any" placeholder="Example: 170"></div></div><div class="actions"><button class="btn btn-primary" onclick="calculateBMI()">Calculate BMI</button><button class="btn btn-secondary" onclick="copyResult('bmiResult')">Copy result</button><button class="btn btn-secondary" onclick="clearBMI()">Clear</button></div></div>
+      <div class="result-box" id="bmiResult" aria-live="polite">Enter height and weight to calculate BMI.</div>
+    </section></div></main>
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    function calculateBMI(){const w=getNumber('weight'), h=getNumber('height'); if(!isPositiveNumber(w)||!isPositiveNumber(h)){setResult('bmiResult','Please enter valid positive weight and height.','error');return;} const bmi=w/Math.pow(h/100,2); let cat=bmi<18.5?'Underweight':bmi<25?'Normal weight':bmi<30?'Overweight':'Obesity range'; setResult('bmiResult',`BMI: ${formatNumber(bmi,1)}<br>Category: ${cat}`)}
+    function clearBMI(){weight.value='';height.value='';setResult('bmiResult','Enter height and weight to calculate BMI.','')}
+  </script>
+</body>
+</html>

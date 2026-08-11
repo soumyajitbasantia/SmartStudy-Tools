@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Calculate CGPA from semester GPAs and credits using SmartStudy Tools."><meta name="theme-color" content="#2563eb"><title>CGPA Calculator - SmartStudy Tools</title><link rel="icon" href="assets/images/icon.svg" type="image/svg+xml"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="assets/css/styles.css?v=4">
+</head>
+<body>
+<header class="site-header"><nav class="navbar" aria-label="Main navigation"><a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a><div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div></nav></header>
+<main class="tool-page"><div class="container"><a class="btn btn-secondary" href="tool.html"><span aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+<section class="calculator panel" aria-labelledby="pageTitle"><span class="eyebrow">Study</span><h1 id="pageTitle">CGPA Calculator</h1><p class="muted">Add each semester GPA and credits. If credits are same, keep all credits as 1.</p><div id="semesters" class="form-grid"></div><div class="actions"><button class="btn btn-secondary" onclick="addSemester()">+ Add semester</button><button class="btn btn-primary" onclick="calculateCGPA()">Calculate CGPA</button><button class="btn btn-secondary" onclick="copyResult('cgpaResult')">Copy result</button><button class="btn btn-danger" onclick="resetCGPA()">Reset</button></div><div class="result-box" id="cgpaResult" aria-live="polite">Add semester details to calculate CGPA.</div></section></div></main>
+<script src="assets/js/app.js?v=4"></script><script>
+function row(i){return `<div class="subject-row"><div class="field"><label>Semester</label><input class="input sem-name" value="Semester ${i+1}"></div><div class="field"><label>Credits</label><input class="input sem-credit" type="number" min="0" step="any" value="1"></div><div class="field"><label>GPA</label><input class="input sem-gpa" type="number" min="0" max="10" step="any" placeholder="0-10"></div><button class="btn btn-secondary" onclick="this.closest('.subject-row').remove()">Remove</button></div>`}
+function addSemester(){semesters.insertAdjacentHTML('beforeend',row(semesters.children.length))}
+function calculateCGPA(){let c=0,p=0; for(const r of document.querySelectorAll('.subject-row')){const cr=Number(r.querySelector('.sem-credit').value), g=Number(r.querySelector('.sem-gpa').value); if(!isPositiveNumber(cr)||!Number.isFinite(g)||g<0||g>10){setResult('cgpaResult','Enter valid credits above 0 and GPA between 0 and 10 for every semester.','error');return;} c+=cr;p+=cr*g;} if(c===0){setResult('cgpaResult','Please add at least one semester.','error');return;} setResult('cgpaResult',`CGPA: ${formatNumber(p/c,2)} out of 10<br>Total credits: ${formatNumber(c,2)}`)}
+function resetCGPA(){semesters.innerHTML=''; for(let i=0;i<4;i++) addSemester(); setResult('cgpaResult','Add semester details to calculate CGPA.','')}
+resetCGPA();
+</script></body></html>

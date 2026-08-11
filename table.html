@@ -1,115 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Multiplication Table Generator</title>
-    <style>
-        body {
-            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        h1 {
-            color: #1f3c88;
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        input {
-            padding: 12px 20px;
-            font-size: 20px;
-            border: 2px solid #1f3c88;
-            border-radius: 10px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 8px #007bff99;
-        }
-
-        button {
-            padding: 12px 20px;
-            font-size: 20px;
-            background: #1f3c88;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-left: 10px;
-        }
-
-        button:hover {
-            background: #4169e1;
-        }
-
-        .result {
-            margin-top: 30px;
-            font-size: 22px;
-            font-weight: bold;
-            color: #222;
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            width: 300px;
-        }
-
-        .back-button {
-            margin-top: 30px;
-            color: white;
-            background: #e91e63;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .back-button:hover {
-            background-color: #d81b60;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generate multiplication tables for study practice using SmartStudy Tools.">
+  <title>Multiplication Table Generator - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div>
+    </nav>
+  </header>
 
-    <h1>Multiplication Table</h1>
+  <main class="tool-page">
+    <div class="container">
+      <a class="btn btn-secondary" href="tool.html"><span class="icon-only" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+      <section class="calculator panel" aria-labelledby="pageTitle">
+        <span class="eyebrow">Practice</span>
+        <h1 id="pageTitle">Multiplication Table Generator</h1>
+        <p class="muted">Generate tables up to any range and use them for quick revision.</p>
 
-    <div>
-        <input type="number" id="tableInput" placeholder="Enter a number">
-        <button onclick="generateTable()">Generate</button>
+        <div class="form-grid">
+          <div class="two-column">
+            <div class="field">
+              <label for="tableInput">Number</label>
+              <input class="input" type="number" id="tableInput" placeholder="Example: 12" step="1">
+            </div>
+            <div class="field">
+              <label for="tableLimit">Up to</label>
+              <input class="input" type="number" id="tableLimit" value="10" min="1" max="100" step="1">
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="generateTable()">Generate table</button>
+            <button class="btn btn-secondary" type="button" onclick="clearTable()">Clear</button>
+            <button class="btn btn-secondary" type="button" onclick="copyResult('tableResult')">Copy result</button>
+          </div>
+        </div>
+
+        <div class="result-box" id="tableResult" aria-live="polite">Enter a number to generate its table.</div>
+      </section>
     </div>
+  </main>
 
-    <div class="result" id="tableResult"></div>
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    function generateTable() {
+      const num = getNumber("tableInput");
+      const limit = Math.trunc(getNumber("tableLimit"));
 
-    <button class="back-button" onclick="window.location.href='tool.html'">⬅ Go Back</button>
+      if (!Number.isFinite(num) || !Number.isInteger(limit) || limit < 1 || limit > 100) {
+        setResult("tableResult", "Please enter a valid number and a range between 1 and 100.", "error");
+        return;
+      }
 
-    <script>
-        function generateTable() {
-            const num = parseInt(document.getElementById("tableInput").value);
-            const output = document.getElementById("tableResult");
-            if (isNaN(num)) {
-                output.innerHTML = "❌ Please enter a valid number.";
-                return;
-            }
+      let tableHTML = '<div class="result-list">';
+      for (let i = 1; i <= limit; i++) {
+        tableHTML += `<div>${formatNumber(num, 4)} × ${i} = ${formatNumber(num * i, 4)}</div>`;
+      }
+      tableHTML += "</div>";
+      setResult("tableResult", tableHTML);
+    }
 
-            let tableHTML = "";
-            for (let i = 1; i <= 10; i++) {
-                tableHTML += `${num} × ${i} = ${num * i}<br>`;
-            }
-            output.innerHTML = tableHTML;
-        }
-    </script>
-
+    function clearTable() {
+      document.getElementById("tableInput").value = "";
+      document.getElementById("tableLimit").value = "10";
+      setResult("tableResult", "Enter a number to generate its table.", "");
+    }
+  </script>
 </body>
 </html>

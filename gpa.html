@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate GPA or SGPA from credits and grade points using SmartStudy Tools.">
+  <meta name="theme-color" content="#2563eb">
+  <title>GPA Calculator - SmartStudy Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true">S</span><span>SmartStudy Tools</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="tool.html">Tools</a></div>
+    </nav>
+  </header>
+
+  <main class="tool-page">
+    <div class="container">
+      <a class="btn btn-secondary" href="tool.html"><span class="icon-only" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></span> Back to tools</a>
+      <section class="calculator panel" aria-labelledby="pageTitle">
+        <span class="eyebrow">Study</span>
+        <h1 id="pageTitle">GPA Calculator</h1>
+        <p class="muted">Add subjects with credits and grade points. Formula: total credit points ÷ total credits.</p>
+
+        <div id="subjects" class="form-grid" aria-label="Subject list"></div>
+
+        <div class="actions">
+          <button class="btn btn-secondary" type="button" onclick="addSubject()">+ Add subject</button>
+          <button class="btn btn-primary" type="button" onclick="calculateGPA()">Calculate GPA</button>
+          <button class="btn btn-secondary" type="button" onclick="copyResult('gpaResult')">Copy result</button>
+          <button class="btn btn-danger" type="button" onclick="resetGPA()">Reset</button>
+        </div>
+
+        <div class="result-box" id="gpaResult" aria-live="polite">Add your subjects to calculate GPA.</div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    function subjectTemplate(index) {
+      return `
+        <div class="subject-row">
+          <div class="field">
+            <label for="subject-${index}">Subject</label>
+            <input class="input subject-name" id="subject-${index}" placeholder="Subject ${index + 1}">
+          </div>
+          <div class="field">
+            <label for="credits-${index}">Credits</label>
+            <input class="input credits" id="credits-${index}" type="number" min="0" step="any" value="3">
+          </div>
+          <div class="field">
+            <label for="grade-${index}">Grade point</label>
+            <input class="input grade" id="grade-${index}" type="number" min="0" max="10" step="any" placeholder="0-10">
+          </div>
+          <button class="btn btn-secondary" type="button" onclick="this.closest('.subject-row').remove()">Remove</button>
+        </div>
+      `;
+    }
+
+    function addSubject() {
+      const container = document.getElementById("subjects");
+      container.insertAdjacentHTML("beforeend", subjectTemplate(container.children.length));
+    }
+
+    function calculateGPA() {
+      const rows = [...document.querySelectorAll(".subject-row")];
+      let totalCredits = 0;
+      let totalPoints = 0;
+
+      for (const row of rows) {
+        const credits = Number(row.querySelector(".credits").value);
+        const grade = Number(row.querySelector(".grade").value);
+        if (!Number.isFinite(credits) || credits <= 0 || !Number.isFinite(grade) || grade < 0 || grade > 10) {
+          setResult("gpaResult", "Please enter valid credits above 0 and grade points between 0 and 10 for every subject.", "error");
+          return;
+        }
+        totalCredits += credits;
+        totalPoints += credits * grade;
+      }
+
+      if (totalCredits === 0) {
+        setResult("gpaResult", "Please add at least one valid subject.", "error");
+        return;
+      }
+
+      const gpa = totalPoints / totalCredits;
+      setResult("gpaResult", `
+        <div class="result-list">
+          <div>GPA / SGPA: ${formatNumber(gpa, 2)} out of 10</div>
+          <div>Total credits: ${formatNumber(totalCredits, 2)}</div>
+          <div>Total credit points: ${formatNumber(totalPoints, 2)}</div>
+        </div>
+      `);
+    }
+
+    function resetGPA() {
+      document.getElementById("subjects").innerHTML = "";
+      for (let i = 0; i < 5; i++) addSubject();
+      setResult("gpaResult", "Add your subjects to calculate GPA.", "");
+    }
+
+    resetGPA();
+  </script>
+</body>
+</html>

@@ -1,147 +1,138 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta charset="UTF-8">
-    <title>Soumyajit Basantia</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #00c9ff, #92fe9d);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-
-        img {
-            border-radius: 50%;
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            color: #6a1b9a;
-            margin-top: 20px;
-        }
-
-        h2 {
-            color: #d2691e;
-        }
-
-        p {
-            color: #333;
-            font-size: 18px;
-            line-height: 1.5;
-        }
-
-        input, button {
-            padding: 12px 20px;
-            font-size: 16px;
-            margin: 10px;
-            border: none;
-            border-radius: 10px;
-        }
-
-        input {
-            border: 1px solid #ccc;
-            width: 150px;
-            text-align: center;
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        .result {
-            font-weight: bold;
-            margin-top: 10px;
-            color: green;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartStudy Tools is a free collection of fast, mobile-friendly calculators and study utilities for students.">
+  <meta name="theme-color" content="#2563eb">
+  <title>SmartStudy Tools - Free Student Calculators and Study Tools</title>
+  <link rel="icon" href="assets/images/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="card">
-        <img src="https://i.postimg.cc/yNcJ0RNX/Screenshot-2025-07-25-031710.png" alt="My Photo">
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="logo" href="index.html" aria-label="SmartStudy Tools home">
+        <span class="logo-mark" aria-hidden="true">S</span>
+        <span>SmartStudy Tools</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="tool.html">Tools</a>
+        <a href="#about">About</a>
+      </div>
+    </nav>
+  </header>
 
-        <h1>Soumyajit Basantia</h1>
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Built for students, by a student</span>
+          <h1>Study smarter with <span class="gradient-text">simple tools</span>.</h1>
+          <p>
+            SmartStudy Tools is a fast, free, and mobile-friendly toolkit for everyday student calculations — from percentages and EMI to unit conversions and multiplication practice.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="tool.html">Explore all tools</a>
+            <a class="btn btn-secondary" href="#featured-tools">View featured tools</a>
+          </div>
+        </div>
 
-        <h2>Hello and Welcome!</h2>
+        <aside class="hero-stage" aria-label="Animated creator and SmartStudy preview">
+          <div class="orbit-ring" aria-hidden="true">
+            <span class="orbit-item" data-icon="calculator"></span>
+            <span class="orbit-item" data-icon="timer"></span>
+            <span class="orbit-item" data-icon="graduation"></span>
+            <span class="orbit-item" data-icon="repeat"></span>
+          </div>
 
-        <p>
-            Welcome to my personal student-friendly tool hub! I'm Soumyajit Basantia, a tech enthusiast who created this space to make learning and everyday calculations easier and faster. Whether it’s basic math, loan planning, unit conversions, or generating tables — these simple tools are designed to save time and help you stay focused.<br><br>
-            Made with love, curiosity, and the goal of helping students like me!
+          <div class="floating-chip chip-one"><span data-icon="document"></span> Faster homework</div>
+          <div class="floating-chip chip-two"><span data-icon="percent"></span> Better planning</div>
+
+          <div class="dashboard-preview creator-preview">
+            <div class="creator-photo-wrap">
+              <img class="creator-photo" src="https://i.postimg.cc/yNcJ0RNX/Screenshot-2025-07-25-031710.png" alt="Soumyajit Basantia">
+              <span class="creator-status"><span data-icon="graduation"></span> Student builder</span>
+            </div>
+
+            <div class="preview-topbar">
+              <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="preview-title">SmartStudy Dashboard</span>
+            </div>
+
+            <div class="preview-hero-card">
+              <strong>Hi, I'm Soumyajit</strong>
+              <span>I built 14 powerful student tools for calculations, conversions, productivity and study planning.</span>
+            </div>
+
+            <div class="preview-grid">
+              <div class="mini-tool"><span data-icon="calculator"></span><b>Math</b><span>Instant answers</span></div>
+              <div class="mini-tool"><span data-icon="wallet"></span><b>EMI</b><span>Finance planning</span></div>
+              <div class="mini-tool"><span data-icon="graduation"></span><b>GPA</b><span>Grade tracking</span></div>
+              <div class="mini-tool"><span data-icon="timer"></span><b>Focus</b><span>Study sessions</span></div>
+            </div>
+
+            <div class="stats" aria-label="SmartStudy statistics">
+              <div class="stat"><strong>14</strong><span>Tools</span></div>
+              <div class="stat"><strong>Free</strong><span>Cost</span></div>
+              <div class="stat"><strong>24/7</strong><span>Access</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="container">
+        <div class="feature-strip" aria-label="Project highlights">
+          <div class="feature-card"><strong>Animated interface</strong><span class="muted">Smooth motion, floating cards, and interactive hover effects.</span></div>
+          <div class="feature-card"><strong>Student focused</strong><span class="muted">Tools selected for assignments, exams, revision, and planning.</span></div>
+          <div class="feature-card"><strong>Publish ready</strong><span class="muted">Responsive layout, PWA basics, SEO tags, and clean structure.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="featured-tools" class="section reveal">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>Popular tools</h2>
+            <p class="muted">Start with the most useful calculators for daily study and planning.</p>
+          </div>
+          <a class="btn btn-secondary" href="tool.html">Open dashboard</a>
+        </div>
+        <div id="featuredTools" class="tools-grid" aria-label="Featured student tools"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section reveal">
+      <div class="container panel calculator">
+        <h2>Why this project matters</h2>
+        <p class="muted">
+          A real project becomes strong when it solves a clear problem, looks consistent, works on mobile, handles errors properly, and is easy to improve. This version is now moving toward that standard step by step.
         </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="tool.html">Try the tools</a>
+          <a class="btn btn-secondary" href="project-notes.html">Read project notes</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-        <h3 id="question"></h3>
-        <input type="number" id="answer" placeholder="Your answer">
-        <br>
-        <button onclick="verify()">Submit</button>
-        <p id="feedback" class="result"></p>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 SmartStudy Tools</span>
+      <span>Made with curiosity by Soumyajit Basantia</span>
     </div>
+  </footer>
 
-    <script>
-        let num1 = Math.floor(Math.random() * 10) + 1;
-        let num2 = Math.floor(Math.random() * 10) + 1;
-        const operators = ['+', '-', '*', '/'];
-        let operator = operators[Math.floor(Math.random() * operators.length)];
-        let correctAnswer;
-
-        if (operator === '+') {
-            correctAnswer = num1 + num2;
-        } else if (operator === '-') {
-            correctAnswer = num1 - num2;
-        } else if (operator === '*') {
-            correctAnswer = num1 * num2;
-        } else if (operator === '/') {
-            num1 = num1 * num2; // ensure clean division
-            correctAnswer = num1 / num2;
-        }
-
-        document.getElementById("question").innerText = `What is ${num1} ${operator} ${num2}?`;
-
-        function verify() {
-            const userAnswer = parseFloat(document.getElementById("answer").value);
-            const feedback = document.getElementById("feedback");
-            if (userAnswer === correctAnswer) {
-                feedback.textContent = "✅ Correct! Redirecting...";
-                feedback.className = "result";
-                setTimeout(() => {
-                    window.location.href = "tool.html";
-                }, 1500);
-            } else {
-                feedback.textContent = "❌ Incorrect answer. Try again!";
-                feedback.className = "error";
-            }
-        }
-    </script>
-
+  <script src="assets/js/app.js?v=4"></script>
+  <script>
+    renderToolCards("featuredTools", tools.slice(0, 6));
+  </script>
 </body>
 </html>
