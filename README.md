@@ -80,6 +80,11 @@ The goal is to turn this first website into a real, portfolio-quality student ut
 - Add multilingual support
 - Convert to React or Next.js later if needed
 
+## Connect
+
+- Official Portfolio: [https://soumyajitbasantia-f8393.web.app/](https://soumyajitbasantia-f8393.web.app/)
+- LinkedIn: [https://www.linkedin.com/in/soumyajit-basantia/](https://www.linkedin.com/in/soumyajit-basantia/)
+
 ## Author
 
 Created by Soumyajit Basantia.
