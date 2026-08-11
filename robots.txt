@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://soumyajitbasantia.github.io/SmartStudy-Tools/sitemap.xml
